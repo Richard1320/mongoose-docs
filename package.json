@@ -1,0 +1,43 @@
+{
+  "name": "mongoose-docs",
+  "version": "0.1.0",
+  "description": "Automatically create documentation for Mongoose schemas.",
+  "main": "./dist/index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w",
+    "prepare": "npm run build",
+    "build": "rm -rf dist && tsc",
+    "test": "npm run build && ts-mocha ./test/test.ts"
+  },
+  "keywords": [
+    "developer-tools",
+    "mongoose",
+    "mongodb",
+    "document",
+    "model",
+    "schema",
+    "database",
+    "nosql",
+    "db",
+    "documentation",
+    "docs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Richard1320/mongoose-docs.git"
+  },
+  "author": "Richard Hung <richardhung111@gmail.com> (http://www.magicmediamuse.com)",
+  "license": "ISC",
+  "peerDependencies": {
+    "mongoose": "^5.12.13"
+  },
+  "devDependencies": {
+    "@types/mocha": "^8.2.2",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^15.12.2",
+    "mocha": "^8.4.0",
+    "ts-mocha": "^8.0.0",
+    "typescript": "^4.3.2"
+  }
+}

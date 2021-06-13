@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Category",
+    "fields": {
+      "name": {
+        "type": "String",
+        "comment": "This is the name of the category",
+        "required": true
+      },
+      "_id": {
+        "type": "ObjectID",
+        "required": false
+      },
+      "__v": {
+        "type": "Number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "Blog",
+    "fields": {
+      "title": {
+        "type": "String",
+        "comment": "This is the post title",
+        "required": true
+      },
+      "contributors": {
+        "type": "Array",
+        "comment": "This is a list of contributors",
+        "required": false,
+        "nestedSchema": "String"
+      },
+      "body": {
+        "type": "String",
+        "comment": "This is the post content",
+        "required": false
+      },
+      "comments": {
+        "type": "Array",
+        "comment": "This is an array of comments",
+        "required": false,
+        "nestedSchema": {
+          "body": {
+            "type": "String",
+            "comment": "This is the comment body",
+            "required": false
+          },
+          "date": {
+            "type": "Date",
+            "comment": "This is the comment date",
+            "required": false
+          },
+          "_id": {
+            "type": "ObjectID",
+            "required": false
+          }
+        }
+      },
+      "date": {
+        "type": "Date",
+        "comment": "This is the frontend display date for the post",
+        "required": false
+      },
+      "hidden": {
+        "type": "Boolean",
+        "comment": "This is a flag to check whether or not the post is visible to the public",
+        "required": false
+      },
+      "meta": {
+        "type": "Mixed",
+        "comment": "This contains meta data relating to this post",
+        "required": false,
+        "nestedSchema": {
+          "views": {
+            "comment": "This is the number of times this post has been viewed",
+            "default": 0,
+            "required": false
+          },
+          "likes": {
+            "comment": "This is the number of likes",
+            "default": 0,
+            "required": false
+          }
+        }
+      },
+      "categoryId": {
+        "type": "ObjectID",
+        "comment": "This is the category of the blog post",
+        "required": false
+      },
+      "apiResponse": {
+        "type": "Mixed",
+        "comment": "This is the response when submitting the post to the 3rd party API",
+        "required": false
+      },
+      "_id": {
+        "type": "ObjectID",
+        "required": false
+      },
+      "updatedAt": {
+        "type": "Date",
+        "required": false
+      },
+      "createdAt": {
+        "type": "Date",
+        "required": false
+      },
+      "__v": {
+        "type": "Number",
+        "required": false
+      }
+    }
+  }
+]

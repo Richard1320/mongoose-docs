@@ -14,6 +14,7 @@ export interface IMongooseDocsSchemaField {
 
 export interface IMongooseDocsSchema {
 	name: string;
+	comment?: string;
 	fields: TMongooseDocsFieldsObject;
 }
 

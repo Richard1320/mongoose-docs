@@ -78,6 +78,7 @@ export function mongooseDocsJSON(mongoose: Mongoose): IMongooseDocsSchema[] {
 
 		return {
 			name: modelName,
+			comment: (schema as any).options.comment,
 			fields: mongooseDocsSchemaJSON(schema),
 		};
 	});

@@ -1,10 +1,16 @@
 [
   {
     "name": "Category",
+    "comment": "This collection contains all the categories for the blog.",
     "fields": {
       "name": {
         "type": "String",
         "comment": "This is the name of the category",
+        "required": true
+      },
+      "slug": {
+        "type": "String",
+        "comment": "This is the slug for the category",
         "required": true
       },
       "_id": {
@@ -19,6 +25,7 @@
   },
   {
     "name": "Blog",
+    "comment": "This collection contains all the blog posts for \"My Kid's Recipes\".",
     "fields": {
       "title": {
         "type": "String",
@@ -34,6 +41,13 @@
       "body": {
         "type": "String",
         "comment": "This is the post content",
+        "required": false
+      },
+      "rating": {
+        "type": "Number",
+        "comment": "This is the review score for that the author has given for the topic. ",
+        "min": 1,
+        "max": 10,
         "required": false
       },
       "comments": {

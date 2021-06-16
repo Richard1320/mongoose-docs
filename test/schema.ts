@@ -1,15 +1,28 @@
 import  { Schema }  from 'mongoose';
 
+const categoryOptions = {
+	timestamps: false,
+	comment: "This collection contains all the categories for the blog."
+}
 export const categorySchema = new Schema({
-	name:  {
+	name: {
 		type: String,
 		comment: "This is the name of the category",
 		required: true,
 	},
-});
+	slug: {
+		type: String,
+		comment: "This is the slug for the category",
+		required: true,
+	},
+}, categoryOptions);
 
+const blogOptions = {
+	timestamps: true,
+	comment: "This collection contains all the blog posts for \"My Kid's Recipes\"."
+}
 export const blogSchema = new Schema({
-	title:  {
+	title: {
 		type: String,
 		required: true,
 		comment: "This is the post title",
@@ -21,6 +34,12 @@ export const blogSchema = new Schema({
 	body: {
 		type: String,
 		comment: "This is the post content",
+	},
+	rating: {
+		type: Number,
+		min: 1,
+		max: 10,
+		comment: "This is the review score for that the author has given for the topic. ",
 	},
 	comments: {
 		comment: "This is an array of comments",
@@ -68,4 +87,4 @@ export const blogSchema = new Schema({
 		type: Schema.Types.Mixed,
 		comment: "This is the response when submitting the post to the 3rd party API",
 	},
-}, {timestamps: true});
+}, blogOptions);

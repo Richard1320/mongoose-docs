@@ -1,6 +1,27 @@
 import fs from "fs";
+import path from "path";
 import {IMongooseDocsSchema} from "../types";
 import writeFile from "./writeFile";
+
+/**
+ * Escape HTML special characters like quotes and brackets.
+ * @param string
+ */
+function escapeHtml(string: string): string {
+	const entityMap: { [entity: string]: string } = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;',
+		'/': '&#x2F;',
+		'`': '&#x60;',
+		'=': '&#x3D;'
+	};
+	return string.replace(/[&<>"'`=\/]/g, function (s) {
+		return entityMap[s];
+	});
+}
 
 /**
  * Generate anchor tag for a schema type.
@@ -43,7 +64,12 @@ function schemaTypeAnchor(fieldType: string): string {
  */
 function generateNavigation(mongooseSchemas: IMongooseDocsSchema[], modelName?: string): string {
 	const anchorLinks: string[] = mongooseSchemas.map((schema) => {
-		return `<a class="nav-link mb-3 border ${(schema.name === modelName) ? "active" : ""}" href="./${schema.name}.html">${schema.name}</a>`;
+		const title = (schema.comment) ? escapeHtml(schema.comment) : "";
+		const classes = `nav-link mb-3 border ${(schema.name === modelName) ? "active" : ""}`
+		return `
+			<a class="${classes}" title="${title}" href="./${schema.name}.html">
+				${schema.name}
+			</a>`;
 	});
 	return `
 		<h3>Models</h3>
@@ -68,7 +94,7 @@ function generateSchemaTable(schema: IMongooseDocsSchema): string {
 			<tr>
 				<td>${fieldName}</td>
 				<td>${schemaTypeAnchor(field.type)}</td>
-				<td>${(field.comment !== undefined) ? field.comment : ""}</td>
+				<td>${(field.comment !== undefined) ? escapeHtml(field.comment) : ""}</td>
 				<td>${(field.required) ? "True" : "False"}</td>
 				<td>${(field.default !== undefined) ? field.default : ""}</td>
 				<td>${(field.min !== undefined) ? field.min : ""}</td>
@@ -155,6 +181,7 @@ function mongooseDocsGenerateSchemaHTML(mongooseSchemas: IMongooseDocsSchema[], 
 					</div>
 					<div class="col-12 col-md-9">
 						<h1>Mongoose Docs for ${modelName} model</h1>
+						<div class="mb-3">${currentSchema.comment}</div>
 						${generateSchemaTable(currentSchema)}
 					</div>
 				</div>
@@ -166,8 +193,8 @@ function mongooseDocsGenerateSchemaHTML(mongooseSchemas: IMongooseDocsSchema[], 
 
 /**
  * Write documentation as HTML files for all available schemas.
- * @param mongooseSchemas
- * @param fileDirectory
+ * @param mongooseSchemas Schema structure returned from `mongooseDocsJSON` function.
+ * @param fileDirectory Directory to write the documentation HTML files.
  */
 export function mongooseDocsOutputHTML(mongooseSchemas: IMongooseDocsSchema[], fileDirectory: string): void {
 	const lastChar: string = fileDirectory.substr(-1); // Selects the last character
@@ -177,13 +204,17 @@ export function mongooseDocsOutputHTML(mongooseSchemas: IMongooseDocsSchema[], f
 
 	// Make directory if it does not exist
 	if (!fs.existsSync(fileDirectory)) {
-		fs.mkdirSync(fileDirectory);
+		try {
+			fs.mkdirSync(fileDirectory, {recursive: true});
+		} catch (err) {
+			console.error(`Error creating directory "${fileDirectory}"`, err);
+		}
 	}
 
 	// Write out HTML files
-	writeFile(mongooseDocsGenerateIndexHTML(mongooseSchemas), `${fileDirectory}index.html`);
+	writeFile(mongooseDocsGenerateIndexHTML(mongooseSchemas), path.join(fileDirectory, "index.html"));
 	mongooseSchemas.forEach((schema) => {
-		writeFile(mongooseDocsGenerateSchemaHTML(mongooseSchemas, schema.name), `${fileDirectory}${schema.name}.html`);
+		writeFile(mongooseDocsGenerateSchemaHTML(mongooseSchemas, schema.name), path.join(fileDirectory, `${schema.name}.html`));
 	});
 
 	console.log(`documentation files written to ${fileDirectory}`);

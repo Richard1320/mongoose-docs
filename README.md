@@ -7,6 +7,8 @@ with the code.
 Mongoose-docs allows you to comment your Mongoose schemas in the codebase and output it in a JSON format that can be
 rendered on the frontend, so you won't need to copy-paste-copy-paste from your code to a Google Doc.
 
+![Generated Documentation](./screenshot-html.jpg)
+
 ## Installation
 
 `npm install mongoose-docs`
@@ -17,14 +19,20 @@ rendered on the frontend, so you won't need to copy-paste-copy-paste from your c
    in the JSON.
 2. Execute the `mongooseDocsJSON` function and pass in `mongoose`. It will return the analyzed structure in a readable
    JSON format.
+3. Optional: execute the `mongooseDocsOutputHTML` function and pass in the result from `mongooseDocsJSON` and the system
+   directory for the documentation HTML files.
 
 ## Example
 
 ```javascript
-import {mongooseDocsJSON} from "mongoose-docs";
+import {mongooseDocsJSON, mongooseDocsOutputHTML} from "mongoose-docs";
 import mongoose, {Schema} from "mongoose";
 
 // Your schemas and models
+const schemaOptions = {
+    timestamps: true,
+    comment: "This collection contains all the users."
+};
 const userSchema = new Schema({
     email: {
         type: String,
@@ -42,6 +50,6 @@ mongoose.model('User', userSchema);
 // Pass in the Mongoose instance with the models implemented.
 const schemaJSON = mongooseDocsJSON(mongoose);
 
-// TODO: Write it to a file, output as JSON, parse and render, etc.
-console.log("Mongoose Docs Schema", schemaJSON);
+// Optional: Output documentation into HTML files
+mongooseDocsOutputHTML(schemaJSON, __dirname + "/docs");
 ```

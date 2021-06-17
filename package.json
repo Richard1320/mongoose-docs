@@ -31,7 +31,7 @@
   "author": "Richard Hung <richardhung111@gmail.com> (http://www.magicmediamuse.com)",
   "license": "ISC",
   "peerDependencies": {
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.x"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.2",

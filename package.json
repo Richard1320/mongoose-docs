@@ -1,6 +1,6 @@
 {
   "name": "mongoose-docs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatically create documentation for Mongoose schemas.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",

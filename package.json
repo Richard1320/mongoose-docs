@@ -2,8 +2,9 @@
   "name": "mongoose-docs",
   "version": "1.0.0",
   "description": "Automatically create documentation for Mongoose schemas.",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "types": "types/index.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
     "prepare": "npm run build",

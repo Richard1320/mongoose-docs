@@ -11,7 +11,7 @@ rendered on the frontend, so you won't need to copy-paste-copy-paste from your c
 
 ## Installation
 
-`npm install mongoose-docs`
+`npm install mongoose-docs --save`
 
 ## Usage
 
@@ -31,7 +31,7 @@ import mongoose, {Schema} from "mongoose";
 // Your schemas and models
 const schemaOptions = {
     timestamps: true,
-    comment: "This collection contains all the users."
+    comment: "This collection contains all the users.",
 };
 const userSchema = new Schema({
     email: {
@@ -44,7 +44,7 @@ const userSchema = new Schema({
         comment: "This is the hashed password", // New comment property on schema type
         required: true,
     },
-});
+}, schemaOptions);
 mongoose.model('User', userSchema);
 
 // Pass in the Mongoose instance with the models implemented.

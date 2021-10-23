@@ -1,6 +1,6 @@
 {
   "name": "mongoose-docs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automatically create documentation for Mongoose schemas.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -28,7 +28,7 @@
     "type": "git",
     "url": "git@github.com:Richard1320/mongoose-docs.git"
   },
-  "author": "Richard Hung <richardhung111@gmail.com> (http://www.magicmediamuse.com)",
+  "author": "Richard Hung <richardhung111@gmail.com> (https://www.magicmediamuse.com)",
   "license": "ISC",
   "peerDependencies": {
     "mongoose": "^5.x"

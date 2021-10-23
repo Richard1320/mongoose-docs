@@ -1,4 +1,4 @@
-import {Mongoose, Schema, SchemaType, SchemaTypeOptions} from "mongoose";
+import {Connection, Mongoose, Schema, SchemaType, SchemaTypeOptions} from "mongoose";
 import {IMongooseDocsSchema, IMongooseDocsSchemaField, TMongooseDocsFieldsObject} from "../types";
 
 /**
@@ -67,11 +67,11 @@ export function mongooseDocsSchemaJSON(schema: Schema): TMongooseDocsFieldsObjec
 
 /**
  * Main function. Takes the Mongoose instance, loops through all the schemas, and returns a JSON array.
- * @param mongoose
+ * @param mongooseInstance
  */
-export function mongooseDocsJSON(mongoose: Mongoose): IMongooseDocsSchema[] {
+export function mongooseDocsJSON(mongooseInstance: Mongoose | Connection): IMongooseDocsSchema[] {
 	// "Mongoose" type does not have "modelSchemas" property. The property does exist in the mongoose object.
-	const modelSchemas: { [key: string]: Schema } = (mongoose as unknown as any).modelSchemas;
+	const modelSchemas: { [key: string]: Schema } = (mongooseInstance as unknown as any).modelSchemas ||  (mongooseInstance as unknown as any).base.modelSchemas;
 
 	return Object.keys(modelSchemas).map((modelName: string) => {
 		const schema: Schema = modelSchemas[modelName];

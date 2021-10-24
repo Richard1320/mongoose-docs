@@ -82,18 +82,24 @@
         "required": false
       },
       "meta": {
-        "type": "Mixed",
+        "type": "Embedded",
         "comment": "This contains meta data relating to this post",
         "required": false,
         "nestedSchema": {
           "views": {
+            "type": "Number",
             "comment": "This is the number of times this post has been viewed",
             "default": 0,
             "required": false
           },
           "likes": {
+            "type": "Number",
             "comment": "This is the number of likes",
             "default": 0,
+            "required": false
+          },
+          "_id": {
+            "type": "ObjectID",
             "required": false
           }
         }

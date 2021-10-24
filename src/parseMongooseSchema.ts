@@ -2,21 +2,6 @@ import {Connection, Mongoose, Schema, SchemaType, SchemaTypeOptions} from "mongo
 import {IMongooseDocsSchema, IMongooseDocsSchemaField, TMongooseDocsFieldsObject} from "../types";
 
 /**
- * Object properties for custom schemas in a "Mixed" type are simplified.
- * @param options
- */
-function parseOptions(options: SchemaTypeOptions<any>): IMongooseDocsSchemaField {
-	return {
-		type: options.type,
-		comment: options.comment,
-		min: options.min,
-		max: options.max,
-		default: options.default,
-		required: (!!options.required),
-	};
-}
-
-/**
  * Analyze the properties for a single field in the schema.
  * @param path
  */
@@ -32,12 +17,12 @@ function parseField(path: SchemaType): IMongooseDocsSchemaField {
 			// This is an array containing a basic type and not a custom schema.
 			nestedSchema = options.type[0].name;
 		}
-	} else if (type === "Mixed" && options.type && typeof options.type === "object") {
+	} else if (type === "Embedded" && options && typeof options.type === "object") {
 		// This is a mixed type with a custom schema.
 		nestedSchema = {};
-		const fieldNames: string[] = Object.keys(options.type);
+		const fieldNames: string[] = Object.keys(options.type.paths);
 		fieldNames.forEach((fieldName: string) => {
-			(nestedSchema as TMongooseDocsFieldsObject)[fieldName] = parseOptions(options.type[fieldName]);
+			(nestedSchema as TMongooseDocsFieldsObject)[fieldName] = parseField(options.type.paths[fieldName]);
 		});
 	}
 
@@ -71,10 +56,11 @@ export function mongooseDocsSchemaJSON(schema: Schema): TMongooseDocsFieldsObjec
  */
 export function mongooseDocsJSON(mongooseInstance: Mongoose | Connection): IMongooseDocsSchema[] {
 	// "Mongoose" type does not have "modelSchemas" property. The property does exist in the mongoose object.
-	const modelSchemas: { [key: string]: Schema } = (mongooseInstance as unknown as any).modelSchemas ||  (mongooseInstance as unknown as any).base.modelSchemas;
+	// "Connection" type has the main "Mongoose" type in "base" property.
+	const mongooseModels: string[] = Object.keys(mongooseInstance.models);
 
-	return Object.keys(modelSchemas).map((modelName: string) => {
-		const schema: Schema = modelSchemas[modelName];
+	return mongooseModels.map((modelName: string) => {
+		const schema: Schema = (mongooseInstance as unknown as any).model(modelName).schema;
 
 		return {
 			name: modelName,

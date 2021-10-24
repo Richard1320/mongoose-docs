@@ -1,4 +1,4 @@
-import {Schema} from "mongoose";
+import {NativeDate} from "mongoose";
 
 export type TMongooseDocsFieldsObject = { [fieldName: string] : IMongooseDocsSchemaField };
 
@@ -7,8 +7,8 @@ export interface IMongooseDocsSchemaField {
 	required: boolean;
 	comment?: string;
 	default?: string;
-	min?: number | Schema.Types.Date | [number, string] | [Schema.Types.Date, string] | readonly [number, string] | readonly [Schema.Types.Date, string];
-	max?: number | Schema.Types.Date | [number, string] | [Schema.Types.Date, string] | readonly [number, string] | readonly [Schema.Types.Date, string];
+	min?: number | NativeDate | [number, string] | [NativeDate, string] | readonly [number, string] | readonly [NativeDate, string];
+	max?: number | NativeDate | [number, string] | [NativeDate, string] | readonly [number, string] | readonly [NativeDate, string];
 	nestedSchema?: TMongooseDocsFieldsObject | string;
 }
 

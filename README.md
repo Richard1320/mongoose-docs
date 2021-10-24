@@ -9,6 +9,16 @@ rendered on the frontend, so you won't need to copy-paste-copy-paste from your c
 
 ![Generated Documentation](./screenshot-html.jpg)
 
+## Mongoose Compatability
+
+Mongoose Docs works with Mongoose 5.x and 6.x. However, you need to ensure you are using the correct combination of
+versions.
+
+| Mongoose Version | Mongoose-Docs Version |
+| --- | --- |
+| v5.x | v1.x |
+| v6.x | v2.x |
+
 ## Installation
 
 `npm install mongoose-docs --save`
